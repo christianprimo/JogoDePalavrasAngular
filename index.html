@@ -19,7 +19,8 @@
     <div ng-hide="n" class="justify-content-center align-items-center"
         style="flex-direction: row; display: flex; margin-top: 50px;">
         <input ng-model="classificacao.nomes" type="text" placeholder="Digite seu nome">
-        <button ng-click="m = true; reset()" class="btn btn-success btn-sm">Novo</button>
+        <button ng-if="iniTimer" ng-click="m = true; reset(); timer()" class="btn btn-success btn-sm">Novo</button>
+        <button ng-if="!iniTimer" ng-click="m = true; reset()" class="btn btn-success btn-sm">Novo</button>
     </div>
     <div ng-show="m && t >= 1">
         <div class='d-flex flex-row justify-content-center align-items-center'>
@@ -32,7 +33,8 @@
         </div>
         <div class='d-flex flex-row'>
             <p ng-if="retornoPonto != '+100 pontos'">Pontuaçao: {{classificacao.pontos}}</p>
-            <p ng-if="retornoPonto == '+100 pontos'" style="color: green;">Pontuaçao: {{classificacao.pontos}} {{retornoPonto}}</p>
+            <p ng-if="retornoPonto == '+100 pontos'" style="color: green;">Pontuaçao: {{classificacao.pontos}}
+                {{retornoPonto}}</p>
         </div>
         <h2 class='text-center text-secondary'>{{dicas[i]}}</h2>
         <div class='d-flex flex-row justify-content-center align-items-center'>
@@ -57,7 +59,8 @@
         <h1 class='text-center'>O jogo acabou</h1>
         <h3 class='text-center'>Sua pontuaçao foi {{classificacao.pontos}}</h3>
         <div class='d-flex flex-row justify-content-center align-items-center'>
-            <button ng-click="c = true; z = false; y = false; mostraRespostaCount(); pulaPerguntaCount(); adicionar()"
+            <button
+                ng-click="c = true; z = false; y = false; iniTimer = false; mostraRespostaCount(); pulaPerguntaCount(); adicionar()"
                 class='btn btn-secondary btn-sm'>Ver
                 pontuaçao</button>
         </div>
