@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html ng-app="meuModulo">
+
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css' rel='stylesheet'
+        integrity='sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6' crossorigin='anonymous'>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Palavras em Angular</title>
+</head>
+
+<body ng-controller="indexController">
+    <nav id='mudaNav' class='navbar navbar-dark bg-primary'>
+        <div class='container-fluid'>
+            <span class='navbar-brand mb-0 h1'>Jogo de palavras</span>
+        </div>
+    </nav>
+    <div ng-hide="n" class="justify-content-center align-items-center"
+        style="flex-direction: row; display: flex; margin-top: 50px;">
+        <input ng-model="classificacao.nomes" type="text" placeholder="Digite seu nome">
+        <button ng-click="m = true; reset()" class="btn btn-success btn-sm">Novo</button>
+    </div>
+    <div ng-show="m && t >= 1">
+        <div class='d-flex flex-row justify-content-center align-items-center'>
+            <h4 ng-if="t >= 20" style="color: green;">{{t}}</h4>
+            <h4 ng-if="t < 20 && t >= 15" style="color: yellow;">{{t}}</h4>
+            <h4 ng-if="t < 15 && t >= 10" style="color: orange;">{{t}}</h4>
+            <h4 ng-if="t < 10" style="color: red;">{{t}}</h4>
+            <h5 ng-if="retornoTemp == '+5 segundos'" style="color: green;">{{retornoTemp}}</h5>
+            <h5 ng-if="retornoTemp == '-5 segundos'" style="color: red;">{{retornoTemp}}</h5>
+        </div>
+        <div class='d-flex flex-row'>
+            <p ng-if="retornoPonto != '+100 pontos'">Pontuaçao: {{classificacao.pontos}}</p>
+            <p ng-if="retornoPonto == '+100 pontos'" style="color: green;">Pontuaçao: {{classificacao.pontos}} {{retornoPonto}}</p>
+        </div>
+        <h2 class='text-center text-secondary'>{{dicas[i]}}</h2>
+        <div class='d-flex flex-row justify-content-center align-items-center'>
+            <input ng-change="inputChanged()" ng-model="verifica" type="text">
+
+        </div>
+        <p ng-if="v == 0" class='text-center'>{{dados[i].length - verifica.length}} Letras Faltando</p>
+        <p ng-if="v > 0" class='text-center'>{{tam}} Letras Faltando</p>
+        <h4 ng-if="retornoResp == 'Acertou'" class="text-center" style="color: green;">{{retornoResp}}</h4>
+        <h4 ng-if="retornoResp == 'Errou'" class="text-center" style="color: red;">{{retornoResp}}</h4>
+        <div class='d-flex flex-column justify-content-start align-items-start' style='position: absolute;'>
+            <span>Disponível: {{contadorResp}} </span>
+            <input type='button' class='btn btn-outline-dark' ng-click="mostraResposta()" value='Mostrar resposta'>
+        </div>
+        <div class='d-flex flex-column justify-content-start align-items-end'>
+            <span style='margin-right: 30px;'>Disponível: {{contadorPula}} </span>
+            <button class='btn btn-outline-dark' ng-click='pulaPergunta()'>Pular pergunta</button>
+        </div>
+        <h6 ng-show="mostra" class='text-center'>{{dados[i]}}</h6>
+    </div>
+    <div ng-show="t <=0 && !c">
+        <h1 class='text-center'>O jogo acabou</h1>
+        <h3 class='text-center'>Sua pontuaçao foi {{classificacao.pontos}}</h3>
+        <div class='d-flex flex-row justify-content-center align-items-center'>
+            <button ng-click="c = true; z = false; y = false; mostraRespostaCount(); pulaPerguntaCount(); adicionar()"
+                class='btn btn-secondary btn-sm'>Ver
+                pontuaçao</button>
+        </div>
+    </div>
+    <div ng-show="c && !z && !y" class='list-group justify-content-center align-items-center'>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome </th>
+                    <th>Ponto </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(i, classif) in claFinal track by $index">
+                    <td>{{classif.nomes}}</td>
+                    <td>{{classif.pontos}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class='d-flex flex-row justify-content-center align-items-center'>
+            <button ng-click="reset()" class="btn btn-danger">Recomeçar</button>
+            <button
+                ng-click="n = false; c = true; y = true; classificacao.nomes = ''; contadorResp = 0; contadorPula = 0"
+                class="btn btn-warning">Mudar
+                jogador</button>
+        </div>
+    </div>
+    <script src="angular.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
