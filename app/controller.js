@@ -54,6 +54,7 @@ angular.module("myApp")
             "Camaleao",
             "Dicionario", "Coracao", "Pele", "Dinossauro"
         ];
+
         $rootScope.classification =
             { names: "", points: 0 };
         $rootScope.claFinal = [];
@@ -114,12 +115,14 @@ angular.module("myApp")
             let getPoints = $rootScope.classification.points.toString();
             $rootScope.claFinal.push({ names: getNames, points: getPoints });
         }
+
         $rootScope.countPoints = function (pts) {
             for ($scope.j = pts; $scope.j <= $rootScope.classification.points; $scope.j += pts) {
                 if (pts == 1000) $rootScope.countAnswer++;
                 else $rootScope.countJump++;
             }
         }
+        
         $rootScope.showAnswer = function () {
             if ($rootScope.countAnswer <= 0) {
                 return;
