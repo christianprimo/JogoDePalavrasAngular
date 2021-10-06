@@ -100,6 +100,7 @@ angular.module("myApp")
 
         $rootScope.reset = function () {
             $rootScope.t = 30;
+            $rootScope.showTime = true;
             $rootScope.showClassification = false;
             $rootScope.hideClassification = true;
             $rootScope.showTime = true;
@@ -108,6 +109,14 @@ angular.module("myApp")
             $rootScope.classification.points = 0;
             $rootScope.inputAnswer = "";
             $rootScope.i = Math.floor(Math.random() * $rootScope.answers.length);
+        }
+
+        $rootScope.resetNewPlayer = function () {
+            $rootScope.hideRegister = false; 
+            $rootScope.hideClassification = true; 
+            $rootScope.classification.names = ''; 
+            $rootScope.countAnswer = 0;
+            $rootScope.countJump = 0;
         }
 
         $rootScope.addClassification = function () {
