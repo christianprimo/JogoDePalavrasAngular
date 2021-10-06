@@ -10,8 +10,8 @@ angular.module("componentes")
             '</thead>'+
             '<tbody>'+
                 '<tr ng-repeat="(i, classif) in $root.claFinal track by $index">'+
-                    '<td>{{classif.nomes}}</td>'+
-                    '<td>{{classif.pontos}}</td>'+
+                    '<td>{{classif.names}}</td>'+
+                    '<td>{{classif.points}}</td>'+
                 '</tr>'+
             '</tbody>'+
         '</table>'

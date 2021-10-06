@@ -1,6 +1,6 @@
 angular.module("myApp")
     .controller("indexController", function ($scope, $rootScope) {
-        $rootScope.dicas = ["Grão usado para fazer picopa", "Instrumento usado para gravar imagens",
+        $rootScope.tips = ["Grão usado para fazer picopa", "Instrumento usado para gravar imagens",
             "É utilizado para decoração, sendo utulizado para armazenar flores",
             "Serve de entrada ou saída de um recinto",
             "Objeto que serve para proteger a cabeça de impactos externos",
@@ -43,7 +43,7 @@ angular.module("myApp")
             "Maior orgão do corpo humano", "Grupo de animais pré-históricos já exstintos"
         ];
 
-        $rootScope.dados = ["Milho", "Camera", "Vaso", "Porta", "Capacete", "Mercado", "Carro", "Moto", "Cama",
+        $rootScope.answers = ["Milho", "Camera", "Vaso", "Porta", "Capacete", "Mercado", "Carro", "Moto", "Cama",
             "Travesseiro", "Cachorro", "Caneta", "Talher", "Cortina", "Relogio", "Furadeira", "Lampada", "Cadeado",
             "Salvador",
             "Saturno", "Outono", "Mickey Mouse", "Asia", "Cristovao Colombo", "Franca", "Microfone",
@@ -54,98 +54,86 @@ angular.module("myApp")
             "Camaleao",
             "Dicionario", "Coracao", "Pele", "Dinossauro"
         ];
-        $rootScope.classificacao =
-            { nomes: "", pontos: 0 };
+        $rootScope.classification =
+            { names: "", points: 0 };
         $rootScope.claFinal = [];
-        $rootScope.verifica = "";
-        $rootScope.n = 0;
-        $rootScope.v = 0;
-        $rootScope.contadorResp = 0;
-        $rootScope.contadorPula = 0;
+        $rootScope.inputAnswer = "";
+        $rootScope.hideRegister = 0;
+        $rootScope.showReturn = false;
+        $rootScope.countAnswer = 0;
+        $rootScope.countJump = 0;
         $rootScope.iniTimer = true;
-        $rootScope.i = Math.floor(Math.random() * $rootScope.dados.length);
+        $rootScope.i = Math.floor(Math.random() * $rootScope.answers.length);
         $rootScope.t = 30;
 
         $rootScope.timer = function () {
-            $rootScope.tempo = setInterval(function () {
+            $rootScope.time = setInterval(function () {
                 $rootScope.t--;
                 $rootScope.$digest();
             }, 1000);
         }
 
         $rootScope.inputChanged = function () {
-            $rootScope.v = 1;
-            $rootScope.retornoResp = "";
-            $rootScope.retornoTemp = "";
-            $rootScope.retornoPonto = "";
-            $rootScope.tam = $rootScope.dados[$rootScope.i].length - $rootScope.verifica.length;
-            if ($rootScope.dados[$rootScope.i].length == $rootScope.verifica.length) {
-                $rootScope.ve();
+            $rootScope.showReturn = false;
+            $rootScope.missLetters = $rootScope.answers[$rootScope.i].length - $rootScope.inputAnswer.length;
+            if ($rootScope.answers[$rootScope.i].length == $rootScope.inputAnswer.length) {
+                $rootScope.checkAnswer();
             }
         }
 
-        $rootScope.ve = function () {
-            $rootScope.mostra = false;
-            if ($rootScope.verifica.toUpperCase() == $rootScope.dados[$rootScope.i].toUpperCase()) {
-                $rootScope.verifica = "";
-                $rootScope.i = Math.floor(Math.random() * $rootScope.dados.length);
+        $rootScope.checkAnswer = function () {
+            $rootScope.shoAnswer = false;
+            $rootScope.checkAwr = $rootScope.inputAnswer.toUpperCase() == $rootScope.answers[$rootScope.i].toUpperCase();
+            $rootScope.showReturn = true;
+            if ($rootScope.checkAwr) {
+                $rootScope.inputAnswer = "";
+                $rootScope.i = Math.floor(Math.random() * $rootScope.answers.length);
                 $rootScope.t += 5;
-                $rootScope.classificacao.pontos += 100;
-                $rootScope.retornoResp = "Acertou";
-                $rootScope.retornoTemp = "+5 segundos";
-                $rootScope.retornoPonto = "+100 pontos";
+                $rootScope.classification.points += 100;
             }
             else {
-                $rootScope.verifica = "";
+                $rootScope.inputAnswer = "";
                 $rootScope.t -= 5;
-                $rootScope.retornoResp = "Errou";
-                $rootScope.retornoTemp = "-5 segundos";
             }
         }
 
         $rootScope.reset = function () {
             $rootScope.t = 30;
-            $rootScope.c = false;
-            $rootScope.z = true;
-            $rootScope.m = true;
-            $rootScope.n = true;
-            $rootScope.y = true;
-            $rootScope.classificacao.pontos = 0;
-            $rootScope.verifica = "";
-            $rootScope.retornoResp = "";
-            $rootScope.retornoTemp = "";
-            $rootScope.retornoPonto = "";
-            $rootScope.i = Math.floor(Math.random() * $rootScope.dados.length);
+            $rootScope.showClassification = false;
+            $rootScope.hideClassification = true;
+            $rootScope.showTime = true;
+            $rootScope.hideRegister = true;
+            $rootScope.showReturn = false;
+            $rootScope.classification.points = 0;
+            $rootScope.inputAnswer = "";
+            $rootScope.i = Math.floor(Math.random() * $rootScope.answers.length);
         }
 
-        $rootScope.adicionar = function () {
-            let recebeNomes = $rootScope.classificacao.nomes.toString();
-            let recebePontos = $rootScope.classificacao.pontos.toString();
-            $rootScope.claFinal.push({ nomes: recebeNomes, pontos: recebePontos });        
+        $rootScope.addClassification = function () {
+            let getNames = $rootScope.classification.names.toString();
+            let getPoints = $rootScope.classification.points.toString();
+            $rootScope.claFinal.push({ names: getNames, points: getPoints });
         }
-        $rootScope.mostraRespostaCount = function () {
-            for ($scope.j = 1000; $scope.j <= $rootScope.classificacao.pontos; $scope.j += 1000) {
-                $rootScope.contadorResp++;
+        $rootScope.countPoints = function (pts) {
+            for ($scope.j = pts; $scope.j <= $rootScope.classification.points; $scope.j += pts) {
+                if (pts == 1000) $rootScope.countAnswer++;
+                else $rootScope.countJump++;
             }
         }
-        $rootScope.mostraResposta = function () {
-            if ($rootScope.contadorResp <= 0) {
+        $rootScope.showAnswer = function () {
+            if ($rootScope.countAnswer <= 0) {
                 return;
             }
-            $rootScope.mostra = true;
-            $rootScope.contadorResp--;
+            $rootScope.shoAnswer = true;
+            $rootScope.countAnswer--;
         }
-        $rootScope.pulaPerguntaCount = function () {
-            for ($scope.j = 500; $scope.j <= $rootScope.classificacao.pontos; $scope.j += 500) {
-                $rootScope.contadorPula++;
-            }
-        }
-        $rootScope.pulaPergunta = function () {
-            if ($rootScope.contadorPula <= 0) {
+
+        $rootScope.skipQuestion = function () {
+            if ($rootScope.countJump <= 0) {
                 return;
             }
-            $rootScope.i = Math.floor(Math.random() * $rootScope.dados.length);
-            $rootScope.mostra = false;
-            $rootScope.contadorPula--;
+            $rootScope.i = Math.floor(Math.random() * $rootScope.answers.length);
+            $rootScope.shoAnswer = false;
+            $rootScope.countJump--;
         }
     })

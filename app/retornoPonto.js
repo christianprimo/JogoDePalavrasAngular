@@ -1,7 +1,10 @@
 angular.module("componentes")
     .component("retornoPt", {
         template:
-        '<p ng-if="$root.retornoPonto != \'+100 pontos\'">Pontuaçao: {{$root.classificacao.pontos}}</p>'+
-        '<p ng-if="$root.retornoPonto == \'+100 pontos\'" style="color: green;">Pontuaçao: {{$root.classificacao.pontos}}'+
-            '{{$root.retornoPonto}}</p>'
+        '<div class="d-flex flex-row>"'+
+        '<p ng-style="{\'color\': $root.checkAwr ? \'green\' : \'black\'}">Pontuaçao: {{$root.classification.points}} </p>'+
+        '<div ng-show="$root.showReturn">'+
+        '<p ng-style="{\'color\': \'green\'}"> +100 Pontos</p>'+
+            '</div>'+
+        '<\div>'    
     })
